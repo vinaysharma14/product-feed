@@ -3,6 +3,8 @@ import { UserType } from './types/inquire';
 import { customers, handleCustomerFlows, handleSellerFlows } from './utils';
 
 let dateTestUserCount = 0;
+
+// this percent of user would use date filtration
 const AB_TESTING_DATE_FILTRATION = 70;
 
 const init = (userType: UserType) => {
@@ -41,7 +43,7 @@ const init = (userType: UserType) => {
     });
   } else {
     [...Array(10)].forEach((_, id) => {
-      let filtrationType = 'date';
+      let filtrationType = 'publishDate';
 
       if (customers.length) {
         // check percent of user having date as product filtration
@@ -55,7 +57,7 @@ const init = (userType: UserType) => {
       }
 
       // increment no of user who have filtration on basis of production date
-      if (filtrationType === 'date') {
+      if (filtrationType === 'publishDate') {
         dateTestUserCount++;
       }
 
@@ -66,8 +68,20 @@ const init = (userType: UserType) => {
 
       handleCustomerFlows({
         type: 'subscribe',
-        payload: { customerId: id, sellerId: 0 },
+        payload: { customerId: id, sellerIds: [0, 1] },
       });
+    });
+
+    // date
+    handleCustomerFlows({
+      type: 'fetchFeed',
+      payload: { customerId: 0 },
+    });
+
+    // rating
+    handleCustomerFlows({
+      type: 'fetchFeed',
+      payload: { customerId: 1 },
     });
   }
 };

@@ -14,20 +14,33 @@ const createCustomer = (id:string, filtrationType: string) => {
 
 const subscriberSeller = (customerId: string, sellerId: string) => {
   const customerIndex = getCustomerIndex(customerId);
-  customers[customerIndex].subscriptions.push(sellerId);
+  const { subscriptions } = customers[customerIndex];
+
+  customers[customerIndex].subscriptions = [...subscriptions, ...sellerId];
 };
 
 const fetchFeed = (customerId: string) => {
-  const feed:any = [];
-  const customerIndex = getCustomerIndex(customerId);
+  let feed:any = [];
 
-  customers[customerIndex].subscriptions.forEach((sellerId:string) => {
+  const customerIndex = getCustomerIndex(customerId);
+  const { filtrationType, subscriptions } = customers[customerIndex];
+
+  subscriptions.forEach((sellerId:string) => {
     const sellerIndex = getSellerIndex(sellerId);
-    feed.push(sellers[sellerIndex].posts);
+    const { rating } = sellers[sellerIndex];
+
+    feed = [
+      ...feed,
+      ...sellers[sellerIndex].posts
+        .map((post) => ({ ...post, rating })) // fetch all products listed by the subscribed seller
+        .filter(({ blocked }) => !blocked), // filter out any blocked product
+    ];
   });
 
-  // todo: filter
-  console.log(feed);
+  // sort the feed based on filtration type which could be either date or ranking
+  const sortedFeed = feed.sort((a:any, b:any):any => b[filtrationType] - a[filtrationType]);
+
+  console.log(sortedFeed);
 };
 
 export { createCustomer, subscriberSeller, fetchFeed };

@@ -38,9 +38,9 @@ const handleCustomerFlows = (userFlow: any) =>{
     }
 
     case 'subscribe': {
-      const { customerId, sellerId } = userFlow.payload;
+      const { customerId, sellerIds } = userFlow.payload;
 
-      subscriberSeller(customerId, sellerId);
+      subscriberSeller(customerId, sellerIds);
       break;
     }
 
