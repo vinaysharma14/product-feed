@@ -1,5 +1,6 @@
+import { dummyPosts } from './data';
 import { UserType } from './types/inquire';
-import { handleSellerFlows } from './utils';
+import { handleSellerFlows, sellers } from './utils';
 
 const init = (userType: UserType) => {
   if (userType === 'seller') {
@@ -8,19 +9,13 @@ const init = (userType: UserType) => {
       payload: { id: 1, name: 'seller1', rating: 3 },
     });
 
-    handleSellerFlows({
+    dummyPosts.forEach((post) => handleSellerFlows({
       type: 'newPost',
       payload: {
+        post,
         sellerId: 1,
-        post: {
-          id: 1,
-          name: 'p1',
-          price: 10,
-          blocked: false,
-          publishDate: new Date().getTime(),
-        },
       },
-    });
+    }));
 
     handleSellerFlows({
       type: 'blockPost',
