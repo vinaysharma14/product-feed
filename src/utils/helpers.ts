@@ -1,32 +1,29 @@
 import { createCustomer, fetchFeed, subscriberSeller } from "./customers";
-import { SellerOperations } from "../types/inquire";
 import { createSeller, publishPost, deletePost, togglePostBlock } from ".";
 
-const handleSellerFlows = (sellerFlow: SellerOperations) =>{
-  switch (sellerFlow) {
+const handleSellerFlows = (sellerFlow: any) =>{
+  switch (sellerFlow.type) {
     case 'newSeller': {
-      createSeller('foo');
+      const { id, name, rating } = sellerFlow.payload;
+      createSeller({ id, name, rating });
       break;
     }
 
     case 'newPost': {
-      publishPost('10', {
-        id: '111',
-        name: 'bar',
-        price: 123,
-        blocked: false,
-        publishDate: new Date().getTime(),
-      });
+      const { sellerId, post } = sellerFlow.payload;
+      publishPost(sellerId, post);
       break;
     }
 
     case 'deletePost': {
-      deletePost('10', '111');
+      const { sellerId, postId } = sellerFlow.payload;
+      deletePost(sellerId, postId);
       break;
     }
 
     case 'blockPost': {
-      togglePostBlock('10', '111', 'block');
+      const { sellerId, postId, operation } = sellerFlow.payload;
+      togglePostBlock(sellerId, postId, operation);
       break;
     }
   }

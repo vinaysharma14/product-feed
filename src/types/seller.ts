@@ -6,7 +6,7 @@ interface Post {
   publishDate: number;
 }
 
-type Ratings = 1 | 2 | 3 | 4 | 5;
+export type Ratings = 1 | 2 | 3 | 4 | 5;
 
 interface Seller {
   id: string;

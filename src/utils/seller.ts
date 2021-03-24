@@ -1,17 +1,17 @@
-import { Post, Sellers } from '../types';
+import { Post, Ratings, Sellers } from '../types';
 
 export let sellers: Sellers = [];
 
 export const getSellerIndex = (sellerId: string) => sellers.findIndex(({ id }) => id === sellerId);
 const getPostIndex = (sellerIndex: number, postId: string) => sellers[sellerIndex].posts.findIndex(({ id }) =>id === postId );
 
-const createSeller = (name: string) => {
+const createSeller = ({ name, id, rating }:{ name:string, id:string, rating:Ratings }) => {
   if (name) {
     sellers.push({
       // todo: unique id & random rating
+      id,
       name,
-      id: '10',
-      rating: 1,
+      rating,
       posts: [],
     });
   }
@@ -43,7 +43,7 @@ const deletePost = (sellerId: string, postId: string) => {
 const togglePostBlock = (sellerId: string, postId: string, operation: 'block' | 'unblock') => {
   const index = getSellerIndex(sellerId);
 
-  if (index) {
+  if (index >= 0) {
     const sellerIndex = getSellerIndex(sellerId);
     const postIndex = getPostIndex(sellerIndex, postId);
 
