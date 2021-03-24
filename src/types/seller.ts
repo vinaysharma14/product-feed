@@ -3,7 +3,7 @@ interface Post {
   name: string;
   price: number;
   blocked: boolean;
-  publishDate: typeof Date;
+  publishDate: number;
 }
 
 type Ratings = 1 | 2 | 3 | 4 | 5;

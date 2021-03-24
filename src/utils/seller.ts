@@ -10,7 +10,7 @@ const createSeller = (name: string) => {
     sellers.push({
       // todo: unique id & random rating
       name,
-      id: '',
+      id: '10',
       rating: 1,
       posts: [],
     });
@@ -26,17 +26,17 @@ const deleteSeller = (sellerId: string) => {
 const publishPost = (sellerId: string, post: Post) => {
   const index = getSellerIndex(sellerId);
 
-  if (index) {
-    sellers[index].posts.push(post);
+  if (index >= 0) {
+    sellers[0].posts.push(post);
   }
 };
 
 const deletePost = (sellerId: string, postId: string) => {
   const index = getSellerIndex(sellerId);
 
-  if (index) {
+  if (index >= 0) {
     let { posts } = sellers[index];
-    sellers[index].posts = posts.filter(({ id }) => id === postId);
+    sellers[index].posts = posts.filter(({ id }) => id !== postId);
   }
 };
 
