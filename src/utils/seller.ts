@@ -27,7 +27,7 @@ const publishPost = (sellerId: string, post: Post) => {
   const index = getSellerIndex(sellerId);
 
   if (index >= 0) {
-    sellers[0].posts.push(post);
+    sellers[index].posts.push(post);
   }
 };
 

@@ -1,4 +1,4 @@
-import { dummyPosts } from './data';
+import { dummySeller } from './data';
 import { UserType } from './types/inquire';
 import { customers, handleCustomerFlows, handleSellerFlows } from './utils';
 
@@ -7,34 +7,37 @@ const AB_TESTING_DATE_FILTRATION = 70;
 
 const init = (userType: UserType) => {
   if (userType === 'seller') {
-    handleSellerFlows({
-      type: 'newSeller',
-      payload: { id: 1, name: 'seller1', rating: 3 },
-    });
+    dummySeller.forEach(({ id, name, rating, posts }) => {
+      handleSellerFlows({
+        type: 'newSeller',
+        payload: { id, name, rating },
+      });
 
-    dummyPosts.forEach((post) => handleSellerFlows({
-      type: 'newPost',
-      payload: {
-        post,
-        sellerId: 1,
-      },
-    }));
+      posts.forEach((post) => handleSellerFlows({
+        type: 'newPost',
+        payload: {
+          post,
+          sellerId: id,
+        },
+      }));
 
-    handleSellerFlows({
-      type: 'blockPost',
-      payload: {
-        sellerId: 1,
-        postId: 1,
-        operation: 'block',
-      },
-    });
+      handleSellerFlows({
+        type: 'blockPost',
+        payload: {
+          sellerId: id,
+          operation: 'block',
+          postId: posts[0].id,
+        },
+      });
 
-    handleSellerFlows({
-      type: 'deletePost',
-      payload: {
-        sellerId: 1,
-        postId: 1,
-      },
+      // * commented for sake of testing filtration of subscriptions
+      // handleSellerFlows({
+      //   type: 'deletePost',
+      //   payload: {
+      //     sellerId: 1,
+      //     postId: 1,
+      //   },
+      // });
     });
   } else {
     [...Array(10)].forEach((_, id) => {
