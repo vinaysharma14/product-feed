@@ -32,7 +32,8 @@ const handleSellerFlows = (sellerFlow: any) =>{
 const handleCustomerFlows = (userFlow: any) =>{
   switch (userFlow.type) {
     case 'create': {
-      createCustomer(userFlow.payload.filtrationType);
+      const { id, filtrationType } = userFlow.payload;
+      createCustomer(id, filtrationType);
       break;
     }
 

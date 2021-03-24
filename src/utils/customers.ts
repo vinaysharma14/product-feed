@@ -4,8 +4,9 @@ export let customers:any = [];
 
 const getCustomerIndex = (customerId: string) => customers.findIndex(({ id }:any) => id === customerId);
 
-const createCustomer = (filtrationType: string) => {
+const createCustomer = (id:string, filtrationType: string) => {
   customers.push({
+    id,
     filtrationType,
     subscriptions: [],
   });
