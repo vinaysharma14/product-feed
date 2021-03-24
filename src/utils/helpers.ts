@@ -1,3 +1,4 @@
+import { createCustomer, fetchFeed, subscriberSeller } from "./customers";
 import { SellerOperations } from "../types/inquire";
 import { createSeller, publishPost, deletePost, togglePostBlock } from ".";
 
@@ -31,12 +32,27 @@ const handleSellerFlows = (sellerFlow: SellerOperations) =>{
   }
 };
 
-const handleUserFlows = (userFlow: any) =>{
+const handleCustomerFlows = (userFlow: any) =>{
   switch (userFlow.type) {
-    case 'createCustomer': {
+    case 'create': {
+      createCustomer(userFlow.payload.filtrationType);
+      break;
+    }
+
+    case 'subscribe': {
+      const { customerId, sellerId } = userFlow.payload;
+
+      subscriberSeller(customerId, sellerId);
+      break;
+    }
+
+    case 'fetchFeed': {
+      const { customerId } = userFlow.payload;
+
+      fetchFeed(customerId);
       break;
     }
   }
 };
 
-export { handleSellerFlows, handleUserFlows };
+export { handleSellerFlows, handleCustomerFlows };

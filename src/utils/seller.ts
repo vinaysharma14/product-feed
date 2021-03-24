@@ -2,7 +2,7 @@ import { Post, Sellers } from '../types';
 
 export let sellers: Sellers = [];
 
-const getSellerIndex = (sellerId: string) => sellers.findIndex(({ id }) => id === sellerId);
+export const getSellerIndex = (sellerId: string) => sellers.findIndex(({ id }) => id === sellerId);
 const getPostIndex = (sellerIndex: number, postId: string) => sellers[sellerIndex].posts.findIndex(({ id }) =>id === postId );
 
 const createSeller = (name: string) => {
